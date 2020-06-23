@@ -131,8 +131,8 @@ GameObject:
   - component: {fileID: 426591431}
   - component: {fileID: 426591430}
   - component: {fileID: 426591432}
-  - component: {fileID: 426591433}
   - component: {fileID: 426591434}
+  - component: {fileID: 426591433}
   m_Layer: 0
   m_Name: Paddle
   m_TagString: Untagged

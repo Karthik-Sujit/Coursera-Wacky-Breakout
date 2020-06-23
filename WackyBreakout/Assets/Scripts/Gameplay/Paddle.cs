@@ -1,24 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.Events;
+
 /// <summary>
-/// paddle behaviour script
+/// paddle behaviour
 /// </summary>
 public class Paddle : MonoBehaviour
 {
-    Rigidbody2D PaddleRB;
-    BoxCollider2D bc2d;
-    float paddleVelocity;
-    float paddleColliderHalf;
+    Rigidbody2D paddleRB;
+    BoxCollider2D paddleCollider;
+    float halfColliderWidth;
+    float paddleVelocity = ConfigurationUtils.PaddleMoveUnitsPerSecond;
+
     // Start is called before the first frame update
     void Start()
     {
-        PaddleRB = gameObject.GetComponent<Rigidbody2D>();
-        paddleVelocity = ConfigurationUtils.PaddleMoveUnitsPerSecond;
-        bc2d = gameObject.GetComponent<BoxCollider2D>();
-        paddleColliderHalf = bc2d.size.x / 2;
+        paddleRB = GetComponent<Rigidbody2D>();
+        paddleCollider = GetComponent<BoxCollider2D>();
+        halfColliderWidth = paddleCollider.size.x / 2;
     }
 
     // Update is called once per frame
@@ -27,25 +27,11 @@ public class Paddle : MonoBehaviour
         
     }
 
-    // Physics Updates happen this frequently
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        float possibleX = transform.position.x + paddleVelocity * horizontal;
-        float returnX = calculateClampedX(possibleX, horizontal);
-        Vector2 newPosition = new Vector2(returnX, transform.position.y);
-        PaddleRB.MovePosition(newPosition);
-    }
-
-    public float calculateClampedX(float x, float direction)
-    {
-        if (x - paddleColliderHalf < ScreenUtils.ScreenLeft || x + paddleColliderHalf > ScreenUtils.ScreenRight)
-        {
-            return transform.position.x;
-        }
-        else
-        {
-            return x;
-        }
+        float oldX = transform.position.x;
+        Vector2 newPos = new Vector2(oldX + horizontal * paddleVelocity, transform.position.y);
+        paddleRB.MovePosition(newPos);
     }
 }
