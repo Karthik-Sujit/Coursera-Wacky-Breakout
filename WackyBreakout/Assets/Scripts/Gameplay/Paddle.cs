@@ -13,6 +13,7 @@ public class Paddle : MonoBehaviour
     float halfColliderWidth;
     float paddleVelocity = ConfigurationUtils.PaddleMoveUnitsPerSecond;
 
+
     // Start is called before the first frame update
     void Start()
     {
